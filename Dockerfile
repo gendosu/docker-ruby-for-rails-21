@@ -2,7 +2,7 @@
 #
 # VERSION               0.0.1
 
-FROM gendosu/ubuntu-base:latest
+FROM gendosu/ubuntu-base:14.10
 
 MAINTAINER Gen Takahashi "gendosu@gmail.com"
 
@@ -16,6 +16,7 @@ RUN chown ubuntu:ubuntu /products
 
 #ADD . /products
 ADD entrypoint/entrypoint.sh /entrypoint
+RUN chmod a+x /entrypoint/entrypoint.sh
 ADD Gemfile /products
 ADD Gemfile.lock /products
 WORKDIR /products
@@ -37,21 +38,23 @@ RUN apt-get update \
     autoconf \
     byacc \
     sudo \
+    nodejs \
+    npm \
 &&  apt-get clean \
 &&  rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
-RUN ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.8.9/bin-Q16/Magick-config /usr/bin/Magick-config
+#RUN ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.8.9/bin-Q16/Magick-config /usr/bin/Magick-config
 
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
-&&  apt-get install -y nodejs \
+#RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
+#RUN apt-get install -y nodejs 
 
-&&  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-&&  echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
-&&  apt-get update \
-&&  apt-get install -y --force-yes \
-    yarn \
-&&  apt-get clean \
-&&  rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
+#&&  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+#&&  echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+#&&  apt-get update \
+#&&  apt-get install -y --force-yes \
+#    yarn \
+#&&  apt-get clean \
+#&&  rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 USER ubuntu
 
@@ -69,7 +72,8 @@ RUN rbenv rehash
 
 RUN gem update --system 1.8.25
 
-#RUN chmod a+x /entrypoint/entrypoint.sh
+RUN bundle
+
 #RUN /entrypoint/entrypoint.sh
 
 ENTRYPOINT ["/entrypoint/entrypoint.sh"]
