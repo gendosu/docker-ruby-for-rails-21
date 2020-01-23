@@ -4,8 +4,6 @@
 
 FROM gendosu/ubuntu-base:14.10
 
-MAINTAINER Gen Takahashi "gendosu@gmail.com"
-
 RUN groupadd -g 1000 ubuntu
 RUN useradd -g ubuntu -k /etc/skel -m -u 1000 ubuntu
 RUN usermod -G root -a ubuntu
