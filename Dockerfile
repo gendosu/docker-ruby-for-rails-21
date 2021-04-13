@@ -36,8 +36,6 @@ RUN apt-get update \
     autoconf \
     byacc \
     sudo \
-    nodejs \
-    npm \
 &&  apt-get clean \
 &&  rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
