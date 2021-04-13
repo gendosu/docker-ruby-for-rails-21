@@ -2,7 +2,7 @@
 #
 # VERSION               0.0.1
 
-FROM gendosu/ubuntu-base:20.04
+FROM gendosu/ubuntu-base:18.04
 
 RUN groupadd -g 1000 ubuntu
 RUN useradd -g ubuntu -k /etc/skel -m -u 1000 ubuntu
